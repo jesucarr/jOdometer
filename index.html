@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>jOdometer jQuery plugin</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="jquery-1.2.6.min.js" type="text/javascript"></script>
+	<script src="jquery.jodometer.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function(){
+			
+			$('.counter1').jOdometer({increment: 1, counterStart:'000', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 1, offsetRight:-1});
+			$('.counter2').jOdometer({increment: 3.17, counterStart:'0087.15', counterEnd:'0159.50', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 2});
+			$('.counter3').jOdometer({ counterStart:'123', counterEnd:'123', numbersImage: 'images/jodometer-numbers.png'});
+		});
+	</script>
+	<style type="text/css" media="screen">
+		.counter1{
+			width:44px;
+			height:31px;
+			border:1px solid #000;
+			overflow:hidden;
+			position:relative;
+			background-color:#f00;
+		}
+		.counter2{
+			width:108px;
+			height:31px;
+			border:1px solid #000;
+			overflow:hidden;
+			position:relative;
+			background-color:#0f0;
+		}
+		.counter3{
+			width:41px;
+			height:31px;
+			border:1px solid #000;
+			overflow:hidden;
+			position:relative;
+			background-color:#0f0;
+		}
+	</style>
+</head>
+<body>
+	<h1>jOdometer:</h1>
+	<pre> 
+		 jOdometer is a counter that works like an odometer: moving the numbers up like a wheel 
+		
+		 Usually we will need a &quot;position: relative&quot; and an &quot;overflow: hidden&quot; in the container element.
+		
+		 Sample Configuration:
+		 $(&#x27;.counter&#x27;).jOdometer({increment: 3.17, counterStart:&#x27;0087.15&#x27;, counterEnd:&#x27;0159.50&#x27;, numbersImage: &#x27;/images/numbers.png&#x27;, spaceNumbers: 2, offsetRight:5});
+		 
+		 Config Options:
+		 counterStart: Number we are starting with. To get a specific number of digits/decimals it have to be a string (e.g. &#x27;0005.50&#x27;) // Default: &#x27;0000.00&#x27;
+		 counterEnd: The counter stop when reach this number. If it is the same as counterStart the odometer is static. False to don&#x27;t stop never. // Default: false
+		 delayTime: Delay between each number change // Default: 1000
+		 increment: Number increment after each delayTime // Default: 0.01
+		 speed: Speed for the change number animation // Default: 500
+		 easing: Easing for the change number animation. Other than &#x27;swing&#x27; or &#x27;linear&#x27; must be provided by plugin // Default: &#x27;swing&#x27;
+		 numbersImage: Image used for the numbers. You can use .psd provided // Default: &#x27;/images/numbers.png&#x27;
+		 heightNumber: The height that each number needs // Default: 31
+		 widthNumber: Width of the numbers&#x27; image // Default: 14
+		 offsetRight: Distance to the right // Default: 0
+		 spaceNumbers: Separation between the numbers&#x27; columns // Default: 0
+		 widthDot: Decimal dot&#x27;s special width // Default: 10
+		 
+		 We can override the defaults with:
+		 $.fn.jOdometer.defaults.spaceNumbers = 1;
+		 
+		
+	</pre>
+	
+	<h1>jOdometer samples:</h1>
+	<pre>
+
+	</pre>
+	<div class="counter1"></div>
+	<div class="counter2"></div>
+	<div class="counter3"></div>
+	
+</body>
+</html>
