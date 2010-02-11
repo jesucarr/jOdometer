@@ -26,6 +26,7 @@
 * offsetRight: Distance to the right // Default: 0
 * spaceNumbers: Separation between the numbers' columns // Default: 0
 * widthDot: Decimal dot's special width // Default: 10
+* formatNumber: Whether to format the number with commas every 3 digits // Default: false
 * 
 * We can override the defaults with:
 * $.fn.jOdometer.defaults.spaceNumbers = 1;
@@ -59,7 +60,7 @@ $.fn.jOdometer = function(settings) {
 				$(this).append('<img style="position:absolute; right:'+( j*settings.widthNumber + settings.offsetRight + j*settings.spaceNumbers )+'px; top:'+ ((parseInt(decimalsArray[i]) *settings.heightNumber*-1)+zeroSet)+'px;" class="jodometer_decimal_'+i+'" src="'+settings.numbersImage+'" alt="Decimal '+(i+1)+'" />');
 				j++;
 			}
-			// add the dot
+			// add the dot (use background div so can be different width)
 			$(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center bottom; right:'+( digits[1].length*settings.widthNumber + settings.offsetRight + digits[1].length*settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
 			numberOfDecimals = digits[1].length;
 			widthDot = settings.widthDot;
@@ -67,9 +68,17 @@ $.fn.jOdometer = function(settings) {
 		// create a column for each integer digit with the image in the position of the correspondent number
 		var integers = digits[0];
 		var j=integers.length-1;
+        var commaExtraWidth = 0;
 		for (var i=0;i<integers.length;i++){
 			integersArray[i] = integers.charAt(j);
-			$(this).append('<img style="position:absolute; right:'+ ( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers) +'px; top:'+ ((parseInt(integersArray[i]) *settings.heightNumber*-1)+zeroSet)+'px;" class="jodometer_integer_'+i+'" src="'+settings.numbersImage+'" alt="Integer '+(i+1)+'" />');
+
+            // Insert comma if wanted (helps make large numbers more readable)
+            if (settings.formatNumber && i>0 && i%3==0) {
+                $(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center bottom; right:'+( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
+                commaExtraWidth += settings.widthDot+settings.spaceNumbers;
+            }
+
+			$(this).append('<img style="position:absolute; right:'+ ( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers) +'px; top:'+ ((parseInt(integersArray[i]) *settings.heightNumber*-1)+zeroSet)+'px;" class="jodometer_integer_'+i+'" src="'+settings.numbersImage+'" alt="Integer '+(i+1)+'" />');
 			j--;
 		}
 		// add the interval
@@ -147,6 +156,7 @@ $.fn.jOdometer.defaults = {
 	speed: 500,
 	easing: 'swing',
 	numbersImage: '/images/jodometer-numbers.png',
+    formatNumber: false,
 	heightNumber: 31,
 	widthNumber: 14,
 	offsetRight: 0,
