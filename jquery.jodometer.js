@@ -1,5 +1,5 @@
 /*
-* jOdometer (1.0) // 2008.03.17 // <http://www.frontendmatters.com/projects/jquery-plugins/>
+* jOdometer (1.1) // 2011.10.05 // <http://www.frontendmatters.com/projects/jquery-plugins/>
 * 
 * REQUIRES jQuery 1.2.3+ <http://jquery.com/>
 * 
@@ -32,7 +32,10 @@
 * $.fn.jOdometer.defaults.spaceNumbers = 1;
 * 
 * @param  settings  An object with configuration options
-* @author    Suso Guez (Jesus Carrera Rodriguez) <suso.guez@frontendmatters.com>
+* @author    Jesus Carrera <jesus.carrera@frontendmatters.com>
+*
+* Credits:
+* Tom Fotherby (added comma formatting) <https://github.com/tomfotherby>
 */
 (function($) {
 $.fn.jOdometer = function(settings) {
@@ -61,22 +64,22 @@ $.fn.jOdometer = function(settings) {
 				j++;
 			}
 			// add the dot (use background div so can be different width)
-			$(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center bottom; right:'+( digits[1].length*settings.widthNumber + settings.offsetRight + digits[1].length*settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
+			$(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center '+((12*(settings.heightNumber)*-1)+zeroSet)+'px; right:'+( digits[1].length*settings.widthNumber + settings.offsetRight + digits[1].length*settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
 			numberOfDecimals = digits[1].length;
 			widthDot = settings.widthDot;
 		}
 		// create a column for each integer digit with the image in the position of the correspondent number
 		var integers = digits[0];
 		var j=integers.length-1;
-        var commaExtraWidth = 0;
+    var commaExtraWidth = 0;
 		for (var i=0;i<integers.length;i++){
 			integersArray[i] = integers.charAt(j);
 
-            // Insert comma if wanted (helps make large numbers more readable)
-            if (settings.formatNumber && i>0 && i%3==0) {
-                $(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center bottom; right:'+( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
-                commaExtraWidth += settings.widthDot+settings.spaceNumbers;
-            }
+      // Insert comma if wanted (helps make large numbers more readable)
+      if (settings.formatNumber && i>0 && i%3==0) {
+          $(this).append('<div style="position:absolute; width:'+settings.widthDot+'px; height:'+settings.heightNumber+'px; background:url('+settings.numbersImage+') no-repeat center bottom; right:'+( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers )+'px;" class="jodometer_dot"></div>');
+          commaExtraWidth += settings.widthDot+settings.spaceNumbers;
+      }
 
 			$(this).append('<img style="position:absolute; right:'+ ( i*settings.widthNumber + numberOfDecimals*settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals*settings.spaceNumbers + i*settings.spaceNumbers + settings.spaceNumbers) +'px; top:'+ ((parseInt(integersArray[i]) *settings.heightNumber*-1)+zeroSet)+'px;" class="jodometer_integer_'+i+'" src="'+settings.numbersImage+'" alt="Integer '+(i+1)+'" />');
 			j--;
