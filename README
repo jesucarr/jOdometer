@@ -1,3 +1,15 @@
-jOdometer is a counter that works like an odometer: moving the numbers up like in a wheel
+jOdometer is a counter that works like an odometer: moving the numbers up like in a wheel. It supports decimals.
 
-More info at http://www.frontendmatters.com/projects/jquery-plugins/
+We can configure:
+
+* Start number
+* Stop number
+* Delay between the number change
+* Increment units
+* Speed and easing of the animation
+* Easing of the animation
+* Different styling options, including a PSD to edit the numbers image.
+* Whether to format large numbers with comma or not.
+
+Check the demo http://www.frontendmatters.com/demos/jodometer/
+More info at http://www.frontendmatters.com/projects/jquery-plugins/jodometer
