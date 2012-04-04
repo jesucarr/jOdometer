@@ -11,5 +11,7 @@ We can configure:
 * Different styling options, including a PSD to edit the numbers image.
 * Whether to format large numbers with comma or not.
 
+We can also update the numbers manually/dynamically.
+
 Check the demo http://www.frontendmatters.com/demos/jodometer/
 More info at http://www.frontendmatters.com/projects/jquery-plugins/jodometer
