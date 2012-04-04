@@ -1,5 +1,5 @@
 /*
-* jOdometer (1.1) // 2011.10.05 // <http://www.frontendmatters.com/projects/jquery-plugins/>
+* jOdometer (1.2) // 2012.02.14 // <http://www.frontendmatters.com/projects/jquery-plugins/jodometer/>
 * 
 * REQUIRES jQuery 1.2.3+ <http://jquery.com/>
 * 
@@ -30,6 +30,11 @@
 * 
 * We can override the defaults with:
 * $.fn.jOdometer.defaults.spaceNumbers = 1;
+
+* It returns an object used for counter manipulation. Available Functions:
+* goToNumber(number): Updates the counter with the number given. Example:
+* var counter = $('.counter').jOdometer({...});
+* counter.goToNumber(100);
 * 
 * @param  settings  An object with configuration options
 * @author    Jesus Carrera <jesus.carrera@frontendmatters.com>
@@ -39,12 +44,24 @@
 */
 (function($) {
 $.fn.jOdometer = function(settings) {
+  
+  if (this.length > 1){
+          this.each(function() { $(this).jOdometer(settings) });
+          return this;
+      }
+      
 	// override default configuration
 	settings = $.extend({}, $.fn.jOdometer.defaults, settings);
+	
+	this.goToNumber = function(newCounter) {
+              advanceCounter(newCounter);
+          };
+	
 	// for each counter
-  return this.each(function(){
+  // return this.each(function(){
 		
 		var scope = $(this); // store the actual counter
+		var $this = this;
 		
 		var zeroSet=-settings.heightNumber; // position of the first 0
 		var counter = parseFloat(settings.counterStart); // initialize counter with the start number
@@ -86,18 +103,26 @@ $.fn.jOdometer = function(settings) {
 		}
 		// add the interval
 		if(parseFloat(settings.counterStart) != settings.counterEnd || (settings.counterEnd.toString() == 'false' && parseFloat(settings.counterStart) == 0) ){
-			var counterInterval = setInterval(advanceCounter,  settings.delayTime);
+			var counterInterval = setInterval(function(){advanceCounter();},  settings.delayTime);
 		}
 		// set the number increments
-		function advanceCounter() {
-			setNumbers(counter);
-			counter = counter + settings.increment;	// increment the number	
+		function advanceCounter(newCounter) {
+			if (newCounter != undefined ) {
+        clearInterval(counterInterval);
+			  counter = newCounter;
+			  setNumbers(counter);
+			} else {
+			  setNumbers(counter);
+			  counter = counter + settings.increment;	// increment the number	
+			}
+			// setNumbers(counter);
 			// if we reach the end clear the interval and use the ending number
 			if(settings.counterEnd != false && counter >= settings.counterEnd){
 				clearInterval(counterInterval);
 				setNumbers(settings.counterEnd);
 			}
 		}
+		
 		// to move the colums from one number position to another
 		function setNumbers(counter){
 			digits = String(counter).split('.'); // check decimals
@@ -148,7 +173,8 @@ $.fn.jOdometer = function(settings) {
 				}
 			}
 		}
-	});
+	return this;
+  // });
 };
 // default settings
 $.fn.jOdometer.defaults = {

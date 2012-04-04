@@ -8,10 +8,25 @@
 	<script type="text/javascript">
 		$(function(){
 
-			$('.counter1').jOdometer({increment: 1, counterStart:'000', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 1, offsetRight:-1});
-			$('.counter2').jOdometer({increment: 3.17, counterStart:'0087.15', counterEnd:'0159.50', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 2});
-			$('.counter3').jOdometer({counterStart:'123', counterEnd:'123', numbersImage: 'images/jodometer-numbers.png'});
-			$('.counter4').jOdometer({increment: 1, counterStart:'1234567',numbersImage:'images/jodometer-numbers-color.png', formatNumber: true, spaceNumbers: 2, widthDot: 8});
+      $('.counter1').jOdometer({increment: 1, counterStart:'000', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 1, offsetRight:-1});
+            $('.counter2').jOdometer({increment: 3.17, counterStart:'0087.15', counterEnd:'0159.50', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 2});
+            $('.counter3').jOdometer({counterStart:'123', counterEnd:'123', numbersImage: 'images/jodometer-numbers.png'});
+            $('.counter4').jOdometer({increment: 1, counterStart:'1234567',numbersImage:'images/jodometer-numbers-color.png', formatNumber: true, spaceNumbers: 2, widthDot: 8});
+			var counter5 = $('.counter5').jOdometer({increment: 1, counterStart:'123',numbersImage:'images/jodometer-numbers-color.png', formatNumber: true, spaceNumbers: 2, widthDot: 8});
+			var counter6 = $('.counter6').jOdometer({increment: 1, counterStart:'123',numbersImage:'images/jodometer-numbers-color.png', formatNumber: true, spaceNumbers: 2, widthDot: 8});
+			$("#update-both-button").click(function()
+    	{
+    		counter5.goToNumber($("#input-1").val());
+    		counter6.goToNumber($("#input-2").val());
+    	});
+    	$("#input-1-button").click(function()
+    	{
+    		counter5.goToNumber($("#input-1").val());
+    	});
+    	$("#input-2-button").click(function()
+    	{
+    		counter6.goToNumber($("#input-2").val());
+    	});
 		});
 	</script>
 	<style type="text/css" media="screen">
@@ -47,6 +62,16 @@
             position:relative;
             background-color:#ccc;
         }
+        
+        .counter5, .counter6
+        {
+        	width:41px;
+        	height:31px;
+        	border:1px solid #000;
+        	overflow:hidden;
+        	position:relative;
+        	background-color:#0f0;
+        }
 	</style>
 </head>
 <body>
@@ -76,7 +101,12 @@
 
 		 We can override the defaults with:
 		 $.fn.jOdometer.defaults.spaceNumbers = 1;
-
+		 
+		 It returns an object used for counter manipulation. Available Functions:
+		 goToNumber(number): Updates the counter with the number given. Example:
+		 var counter = $('.counter').jOdometer({...});
+		 counter.goToNumber(100);
+		 
 
 	</pre>
 
@@ -88,5 +118,14 @@
 	<div class="counter2"></div>
 	<div class="counter3"></div>
 	<div class="counter4"></div>
+	Example manual update:
+	<div class="counter5"></div>
+  <div class="counter6"></div>
+
+  Counter 1: <input type="text" id="input-1" /> <input type="button" id="input-1-button" value="Update" />
+  <br />
+  Counter 2: <input type="text" id="input-2" /> <input type="button" id="input-2-button" value="Update" />
+  <br />
+  <input type="button" id="update-both-button" value="Update Both" />
 </body>
 </html>
