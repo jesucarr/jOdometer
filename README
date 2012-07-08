@@ -10,6 +10,7 @@ We can configure:
 * Easing of the animation
 * Different styling options, including a PSD to edit the numbers image.
 * Whether to format large numbers with comma or not.
+* Whether to have unused digits to the left that the odometer will expand into (maxWidth) (v1.3)
 
 We can also update the numbers manually/dynamically.
 
