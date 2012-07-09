@@ -67,3 +67,4 @@ Widget returns an object used for counter manipulation. Available Functions:
  	var counter = $('.counter').jOdometer({...});
  	counter.goToNumber(100);
  
+ 
