@@ -41,11 +41,22 @@
                 numbersImage: 'images/jodometer-numbers-24pt.png', 
                 widthNumber: 32,
                 heightNumber: 54,
-                spaceNumbers: 1, 
-                offsetRight:-14,
+                spaceNumbers: 0, 
+                offsetRight:-10,
                 speed:250,
                 delayTime: 300,
-                maxDigits: 10
+                maxDigits: 10,
+            });
+            $('.counter8').jOdometer({
+                increment: 1, 
+                counterStart:'95', 
+                numbersImage: 'images/jodometer-numbers-24pt.png', 
+                widthNumber: 32,
+                heightNumber: 54,
+                spaceNumbers: 0, 
+                offsetRight:-10,
+                maxDigits: 5,
+                prefixChar: true
             });
         });
     </script>
@@ -111,10 +122,28 @@
             background-color:transparent;
         }
 
+        .counter8-container{
+            height:55px;
+            overflow:hidden;
+            position:relative;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            background-image: url('images/jodometer-background.jpg');
+            background-repeat: repeat-x;
+            width: 160px;
+        }
+        .counter8{
+            width:100%;
+            height:55px;
+            overflow:hidden;
+            position:relative;
+            background-color:transparent;
+        }
+
     </style>
 </head>
 <body>
-    <h1>jOdometer (v1.3):</h1>
+    <h1>jOdometer (v1.4):</h1>
 
     <pre>
          jOdometer is a counter that works like an odometer: moving the numbers up like a wheel
@@ -139,6 +168,7 @@
          widthDot: Decimal dot&#x27;s special width // Default: 10
          formatNumber: Whether to format the number with commas every 3 digits // Default: false
          maxDigits: Maximum digits. If set will allow odo to 'grow' to the left for maxDigits digits w/out leading 0s. If 0 does nothing. // Default: 0
+         prefixChar: Whether to display a prefix character (16th element in numbersImage). Only works if maxDigits > 0 // Default: true
 
          We can override the defaults with:
          $.fn.jOdometer.defaults.spaceNumbers = 1;
@@ -151,9 +181,6 @@
     Source on Github: <a href="https://github.com/jesucarr/jOdometer">https://github.com/jesucarr/jOdometer</a>
 
     <h1>jOdometer samples:</h1>
-    <div class="counter7-container">
-        <div class="counter7"></div>
-    </div>
     <div class="counter1"></div>
     <div class="counter2"></div>
     <div class="counter3"></div>
@@ -167,6 +194,15 @@
     Counter 2: <input type="text" id="input-2" /> <input type="button" id="input-2-button" value="Update" />
     <br />
     <input type="button" id="update-both-button" value="Update Both" />
+
+    <h2>Example maxDigits</h2>
+    <div class="counter7-container">
+        <div class="counter7"></div>
+    </div>
+    <h2>Example prefixChar</h2>
+    <div class="counter8-container">
+        <div class="counter8"></div>
+    </div>
 
 </body>
 </html>

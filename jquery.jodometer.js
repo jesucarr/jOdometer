@@ -1,5 +1,5 @@
 /*
- * jOdometer (1.3) // 2012.07.7 // <http://www.frontendmatters.com/projects/jquery-plugins/jodometer/>
+ * jOdometer (1.4) // 2012.07.09 // <http://www.frontendmatters.com/projects/jquery-plugins/jodometer/>
  *
  * REQUIRES jQuery 1.2.3+ <http://jquery.com/>
  *
@@ -28,6 +28,7 @@
  * widthDot: Decimal dot's special width // Default: 10
  * formatNumber: Whether to format the number with commas every 3 digits // Default: false
  * maxDigits: Maximum digits. If set will allow odo to 'grow' to the left for maxDigits digits w/out leading 0s. If 0 does nothing. // Default: 0
+ * prefixChar: Whether to display a prefix character (16th element in numbersImage). Only works if maxDigits > 0 // Default: true
  *
  * We can override the defaults with:
  * $.fn.jOdometer.defaults.spaceNumbers = 1;
@@ -111,12 +112,24 @@
         commaExtraWidth += settings.widthDot + settings.spaceNumbers;
       }
 
+      var display = '';
+      // hide any positions that do not yet have digits
+      if (j < 0)
+        display = 'display:none; ';
+
+      var c = parseInt(integersArray[i]);
+      if (settings.prefixChar && j == -1){ 
+        // always show prefixChar position
+        display = '';
+        c = 14; // prefix char
+      }
+
       // Set position image to its initial placement. If this position initially has no value
       // then hide it (display:none) and position it at '0'. 
-      $(this).append('<img style="' + (j < 0 ? 'display:none;' : '') +
-        'position:absolute; '+
+      $(this).append('<img style="' + display +
+        'position:absolute; ' +
         'right:' + (i * settings.widthNumber + numberOfDecimals * settings.widthNumber + widthDot + commaExtraWidth + settings.offsetRight + numberOfDecimals * settings.spaceNumbers + i * settings.spaceNumbers + settings.spaceNumbers) + 'px; '+
-        'top:' + ((parseInt((j < 0 ? '0' : integersArray[i])) * settings.heightNumber * -1) + zeroSet) + 'px;' +
+        'top:' + ((c * settings.heightNumber * -1) + zeroSet) + 'px;' +
         '" class="jodometer_integer_' + i + '" src="' + settings.numbersImage + '" alt="Integer ' + (i + 1) + '" />');
       j--;
     }
@@ -181,10 +194,32 @@
           integersArray[i] = '0';
         }
 
-        // if this is the first time this position had a value show it
-        if (j >= 0 && oldDigit == ''){
-          $('.jodometer_integer_' + i, scope).show();
-          oldDigit = '0';
+        // we're dealing with a position that is either unused or prefixChar
+        if (oldDigit == '') {
+          if (settings.prefixChar) {
+              if (j == 0){
+                // This position currently has the prefixChar shown.
+                // Show 1 and pretend we've come from 9
+                $('.jodometer_integer_' + i, scope).animate({
+                  top: zeroSet
+                }, 0, 'linear');
+                oldDigit = '0';
+              } 
+
+              if (j == -1){
+                // This position was previously unused. Show prefix char
+                $('.jodometer_integer_' + i, scope).animate({
+                  top: (15 * settings.heightNumber * -1)
+                }, 1, 'linear');
+                $('.jodometer_integer_' + i, scope).show();
+              }
+          } else {
+            if (j == 0){
+              // This position was previously unused. Show it.
+              $('.jodometer_integer_' + i, scope).show();
+              oldDigit = '0';
+            }
+          }
         }
 
         updatePosition($('.jodometer_integer_' + i, scope), parseInt(integersArray[i]), parseInt(oldDigit));
@@ -196,6 +231,9 @@
 
 
     function updatePosition(col, newDigit, oldDigit) {
+      if (isNaN(newDigit) || isNaN(oldDigit))
+        return this;
+
       if (newDigit != oldDigit) {
         col.stop();
         // if the number is 0 use the bottom 0 in the image, and change intantly to the top 0
@@ -242,6 +280,7 @@
     offsetRight: 0,
     spaceNumbers: 0,
     widthDot: 10,
-    maxDigits: 0
+    maxDigits: 0,
+    prefixChar: false
   };
 })(jQuery);
