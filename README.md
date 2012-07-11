@@ -12,11 +12,13 @@ We can configure:
 * Whether to format large numbers with comma or not.
 * Whether to have unused digits to the left that the odometer will expand into (maxWidth) (v1.3)
 * Whether a prefix character (e.g. '$') is displayed (v1.4)
+* We can also update the numbers manually/dynamically.
 
-We can also update the numbers manually/dynamically.
+# Demos and Source
 
-Check the demo http://www.frontendmatters.com/demos/jodometer/
-More info at http://www.frontendmatters.com/projects/jquery-plugins/jodometer
+* Check the v1.4 demo http://www.kindel.com/demos/jOdometer/index.html
+* Original demo: http://www.frontendmatters.com/demos/jodometer/
+* More info at http://www.frontendmatters.com/projects/jquery-plugins/jodometer
 
 # License
 
