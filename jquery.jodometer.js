@@ -1,5 +1,5 @@
 /*
- * jOdometer (1.4) // 2012.07.09 // <http://www.frontendmatters.com/projects/jquery-plugins/jodometer/>
+ * jOdometer (1.4.2) // 2012.08.13 // <http://www.frontendmatters.com/projects/jquery-plugins/jodometer/>
  *
  * REQUIRES jQuery 1.2.3+ <http://jquery.com/>
  *
@@ -134,9 +134,11 @@
       j--;
     }
     // add the interval
-    if (parseFloat(settings.counterStart) != settings.counterEnd || (settings.counterEnd.toString() == 'false' && parseFloat(settings.counterStart) == 0)) {
-      var counterInterval = setInterval(function() {
-        advanceCounter();
+    if ((parseFloat(settings.counterStart) != settings.counterEnd || 
+        (settings.counterEnd.toString() == 'false' && parseFloat(settings.counterStart) == 0)) &&
+        settings.delayTime > 0) {
+          var counterInterval = setInterval(function() {
+          advanceCounter();
       }, settings.delayTime);
     }
 
@@ -146,6 +148,33 @@
     function advanceCounter(newCounter) {
       if (newCounter != undefined) {
         clearInterval(counterInterval);
+        if (parseInt(newCounter) < parseInt(counter)){
+          // reset to 0
+          var n = settings.maxDigits == 0 ? integersArray.length : settings.maxDigits;
+          for (i = 0; i < n; i++) {
+            integersArray[i] = '';
+            // hide & position at '0'
+            if (settings.maxDigits) $('.jodometer_integer_' + i).hide();
+            $('.jodometer_integer_' + i, scope).animate({
+              top: zeroSet
+            }, 0, 'linear');
+          }
+
+          if (settings.prefixChar){
+            integersArray[0] = '0';
+            $('.jodometer_integer_0').show();
+            $('.jodometer_integer_0', scope).animate({
+              top: zeroSet
+            }, 0, 'linear');
+
+            $('.jodometer_integer_1').show();
+            $('.jodometer_integer_1', scope).animate({
+              top: (15 * settings.heightNumber * -1)
+            }, 1, 'linear');
+          }
+          //setNumbers(0);
+
+        }
         counter = newCounter;
         setNumbers(counter);
       } else {
@@ -197,24 +226,33 @@
         // we're dealing with a position that is either unused or prefixChar
         if (oldDigit == '') {
           if (settings.prefixChar) {
-              if (j == 0){
-                // This position currently has the prefixChar shown.
-                // Show 1 and pretend we've come from 9
-                $('.jodometer_integer_' + i, scope).animate({
-                  top: zeroSet
-                }, 0, 'linear');
-                oldDigit = '0';
-              } 
-
               if (j == -1){
-                // This position was previously unused. Show prefix char
+                // This position was previously unused and is where the prefix char goes. 
+                // show the prefix char
                 $('.jodometer_integer_' + i, scope).animate({
                   top: (15 * settings.heightNumber * -1)
                 }, 1, 'linear');
                 $('.jodometer_integer_' + i, scope).show();
               }
+
+              if (j == 0){
+                // this position previously unused. show
+                oldDigit = '0';
+                $('.jodometer_integer_' + i, scope).show();
+              }
+
+              if (j >= 1){
+                // This position currently has the prefixChar shown.
+                // Show 1 and pretend we've come from 9
+                $('.jodometer_integer_' + i, scope).animate({
+                  top: zeroSet
+                }, 0, 'linear');
+                $('.jodometer_integer_' + i, scope).show();
+                oldDigit = '0';
+              } 
+
           } else {
-            if (j == 0){
+            if (j >= 0){
               // This position was previously unused. Show it.
               $('.jodometer_integer_' + i, scope).show();
               oldDigit = '0';
