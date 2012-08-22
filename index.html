@@ -4,7 +4,7 @@
     <title>jOdometer jQuery plugin</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="jquery.jodometer.js" type="text/javascript"></script>
+    <script src="jquery.jodometer.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function(){
             $('.counter1').jOdometer({increment: 1, counterStart:'000', numbersImage: 'images/jodometer-numbers.png', spaceNumbers: 1, offsetRight:-1});
@@ -47,16 +47,21 @@
                 delayTime: 300,
                 maxDigits: 10,
             });
-            $('.counter8').jOdometer({
-                increment: 1, 
-                counterStart:'95', 
+            var counter8 = $('.counter8').jOdometer({
+                increment: 0, 
+                counterStart:'1', 
                 numbersImage: 'images/jodometer-numbers-24pt.png', 
                 widthNumber: 32,
                 heightNumber: 54,
                 spaceNumbers: 0, 
                 offsetRight:-10,
                 maxDigits: 5,
-                prefixChar: true
+                prefixChar: true,
+                delayTime: 0
+            });
+
+            $("#input-8-button").click(function() {
+                counter8.goToNumber($("#input-8").val());
             });
         });
     </script>
@@ -143,9 +148,39 @@
     </style>
 </head>
 <body>
-    <h1>jOdometer (v1.4):</h1>
+    <h1>jOdometer (v1.4.2):</h1>
 
-    <pre>
+    
+    <p>Version 1.4.2 Fork by Charlie Kindel on Gitub: <a href="https://github.com/tig/jOdometer">https://github.com/tig/jOdometer</a></p>
+    <p>Original source on Github: <a href="https://github.com/jesucarr/jOdometer">https://github.com/jesucarr/jOdometer</a></p>
+    
+    <h1>jOdometer samples:</h1>
+    <div class="counter1"></div>
+    <div class="counter2"></div>
+    <div class="counter3"></div>
+    <div class="counter4"></div>
+    <h2>Example manual update:</h2>
+    <div class="counter5"></div>
+    <div class="counter6"></div>
+
+    Counter 1: <input type="text" id="input-1" /> <input type="button" id="input-1-button" value="Update" />
+    <br />
+    Counter 2: <input type="text" id="input-2" /> <input type="button" id="input-2-button" value="Update" />
+    <br />
+    <input type="button" id="update-both-button" value="Update Both" />
+
+    <h2>Example maxDigits</h2>
+    <div class="counter7-container">
+        <div class="counter7"></div>
+    </div>
+    <h2>Example prefixChar</h2>
+    <div class="counter8-container">
+        <div class="counter8"></div>
+    </div>
+    Counter 8: <input type="text" id="input-8" />
+    <input type="button" id="input-8-button" value="Update" />
+
+<pre>
          jOdometer is a counter that works like an odometer: moving the numbers up like a wheel
 
          Usually we will need a &quot;position: relative&quot; and an &quot;overflow: hidden&quot; in the container element.
@@ -178,32 +213,5 @@
          var counter = $('.counter').jOdometer({...});
          counter.goToNumber(100);
     </pre>
-    <p>Version 1.4 Fork by Charlie Kindel on Gitub: <a href="https://github.com/tig/jOdometer">https://github.com/tig/jOdometer</a></p>
-    <p>Original source on Github: <a href="https://github.com/jesucarr/jOdometer">https://github.com/jesucarr/jOdometer</a></p>
-    
-    <h1>jOdometer samples:</h1>
-    <div class="counter1"></div>
-    <div class="counter2"></div>
-    <div class="counter3"></div>
-    <div class="counter4"></div>
-    <h2>Example manual update:</h2>
-    <div class="counter5"></div>
-    <div class="counter6"></div>
-
-    Counter 1: <input type="text" id="input-1" /> <input type="button" id="input-1-button" value="Update" />
-    <br />
-    Counter 2: <input type="text" id="input-2" /> <input type="button" id="input-2-button" value="Update" />
-    <br />
-    <input type="button" id="update-both-button" value="Update Both" />
-
-    <h2>Example maxDigits</h2>
-    <div class="counter7-container">
-        <div class="counter7"></div>
-    </div>
-    <h2>Example prefixChar</h2>
-    <div class="counter8-container">
-        <div class="counter8"></div>
-    </div>
-
 </body>
 </html>
